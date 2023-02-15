@@ -26,7 +26,7 @@ jobs:
             --recursive \
             --region us-east-1 \
             --acl public-read \
-            dist/frontend s3://markdownconverter.com
+            dist/markdownconverter s3://markdownconverter.com
             
       - name: Invalidate Caching.guru
         run: curl -s "https://api.caching.guru/v1/invalidate?type=all&url=https%3A%2F%2Fmarkdownconverter.com" > /dev/null
