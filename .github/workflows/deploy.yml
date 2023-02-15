@@ -1,0 +1,41 @@
+name: S3 Deploy
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@main
+
+      - name: Install
+        run: npm install --force
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_SECRET_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
+        run: |
+          aws s3 cp \
+            --recursive \
+            --region us-east-1 \
+            --acl public-read \
+            dist/frontend s3://markdownconverter.com
+            
+      - name: Invalidate Caching.guru
+        run: curl -s "https://api.caching.guru/v1/invalidate?type=all&url=https%3A%2F%2Fmarkdownconverter.com" > /dev/null
+
+      - name: Deploy Cloudfront
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_SECRET_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
+        run: aws cloudfront create-invalidation --distribution-id E31XXE0AW74V52  --paths "/*" --region us-east-1
+
+
+
