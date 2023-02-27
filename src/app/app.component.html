@@ -1,7 +1,9 @@
 <div class="container-lg">
   <div class="row">
     <div class="col">
-      <h1>markdownconverter.com</h1>
+      <h1>The Ultimate Tool for Converting Markdown Files to XML/HTML with One Click</h1>
+      <p>Did you ever have to convert markdown (md) files to HTML/XML and then back? We did while making markdown-files
+        translatable and here we share our technology:</p>
       <h2>Convert markdown to HTML and back.</h2>
     </div>
   </div>
@@ -15,20 +17,46 @@
   <div class="row">
     <div class="col">
       Input:<br />
-      <textarea [(ngModel)]="input" style="width:100%;height:100%;"></textarea>
+      <textarea [(ngModel)]="input"></textarea>
     </div>
   </div>
   <div class="row">
     <div class="col">
-      <button class="btn btn-primary" (click)="convert()">Convert!</button>
+      <button class="btn btn-primary" (click)="convert()" [disabled]="loading">
+        <ng-container *ngIf="loading">loading ...</ng-container>
+        <ng-container *ngIf="!loading">Convert!</ng-container>
+      </button>
     </div>
   </div>
   <div class="row" *ngIf="output">
     <div class="col">
       Output:<br />
-      <textarea disabled [innerHtml]="output" style="width:100%;height:100%;"></textarea>
+      <textarea disabled [innerHtml]="output"></textarea>
       <br />
+    </div>
+    <div class="col-12">
       <button class="btn btn-secondary" (click)="copyToClipboard()">Copy to clipboard</button>
     </div>
   </div>
+  <div class="row" *ngIf="output">
+
+    <div class="col">
+      <h1>Preview</h1>
+      <div [innerHTML]="output"></div>
+    </div>
+  </div>
 </div>
+<footer class="container-lg d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+  <div class="col-md-4 d-flex align-items-center">
+    <a href="https://caching.guru/?utm_source=markdownconverter.com&utm_medium=page&utm_campaign=footer" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
+      
+    <span class="mb-3 mb-md-0 text-muted">© 2023 caching.guru</span>
+  </a>
+  </div>
+
+  <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+    <li class="ms-3"><a class="text-muted" href="https://caching.guru/?utm_source=markdownconverter.com&utm_medium=page&utm_campaign=footer">caching.guru</a></li>
+    <li class="ms-3"><a class="text-muted" href="https://github.com/caching-guru/SwiftMarkdownHtml">Swift: MarkdownHtml</a></li>
+    <li class="ms-3"><a class="text-muted" href="https://github.com/caching-guru/SwiftHtmlMarkdown">Swift: HtmlMarkdown</a></li>
+  </ul>
+</footer>
